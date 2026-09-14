@@ -1,0 +1,16 @@
+import '../../../core/domain_services/models.dart';
+import 'expense_models.dart';
+
+/// Repository abstraction — پیاده‌سازی واقعی (Drift/Firebase/Backend) در لایه data
+/// جای‌گزین می‌شود بدون تغییر در presentation یا domain services.
+abstract class ExpensesRepository {
+  /// خروجی آماده برای مصرف مستقیم توسط BalanceEngine.
+  Future<List<ExpenseInput>> getAllActiveAsEngineInput({String? groupId});
+
+  Future<String> createExpense(CreateExpenseInput input);
+
+  Stream<List<ExpenseHistoryItem>> watchHistory(String groupId, {String currentUserId = ''});
+
+  /// Settlement نباید Expense را حذف کند؛ این متد فقط خود Expense را حذف می‌کند.
+  Future<void> softDeleteExpense(String expenseId);
+}
