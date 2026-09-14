@@ -14,12 +14,20 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.35.0'
           channel: 'stable'
           cache: true
 
+      - name: Install sqlite3 (for Drift NativeDatabase in tests)
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-0
+
       - name: Install dependencies
         run: flutter pub get
+
+      # AppDatabase از Drift code-gen استفاده می‌کند (app_database.g.dart).
+      # این مرحله باید قبل از analyze/test/build اجرا شود.
+      - name: Generate code (Drift/Freezed/Riverpod)
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
@@ -28,7 +36,7 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
-      - name: Run unit & widget tests
+      - name: Run unit & widget & integration tests
         run: flutter test --coverage
 
       - name: Upload coverage
@@ -45,12 +53,15 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.35.0'
           channel: 'stable'
           cache: true
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Generate code (Drift/Freezed/Riverpod)
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Build debug APK
         run: flutter build apk --debug
