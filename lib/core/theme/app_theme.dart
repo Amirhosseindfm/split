@@ -20,7 +20,7 @@ class AppTheme {
         bodyColor: AppColors.lightTextPrimary,
         displayColor: AppColors.lightTextPrimary,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: AppColors.lightSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -54,7 +54,7 @@ class AppTheme {
         bodyColor: AppColors.darkTextPrimary,
         displayColor: AppColors.darkTextPrimary,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: AppColors.darkSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(
